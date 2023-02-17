@@ -63,8 +63,7 @@ SELECT
 	cityID, SUM(distance) as distance_sum /* sum all the edge distance */
 FROM
 (
-    SELECT /* calculate the distance for a road edge that is within the city boundary */
-  		cityID, 
+    SELECT cityID, 
   		geo_distance(lon1, lat1, lon2, lat2) AS distance
     FROM 
   	( /* retrieve the edges with starting node inside city boundary */
