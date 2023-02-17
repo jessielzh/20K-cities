@@ -68,18 +68,18 @@ FROM
   		geo_distance(lon1, lat1, lon2, lat2) AS distance
     FROM 
   	( 
-  		SELECT  /*+ mapjoin(boundary) */
-      	boundary.cityID,
-      	road.node_start_lon AS lon1, 
-      	road.node_start_lat AS lat1, 
-      	road.node_end_lon AS lon2, 
-      	road.node_end_lat AS lat2,
-        pnpoly(road.node_start_lon, road.node_start_lat, boundary.polygon) AS inPoly 
+  	SELECT  /*+ mapjoin(boundary) */
+		boundary.cityID,
+		road.node_start_lon AS lon1, 
+		road.node_start_lat AS lat1, 
+		road.node_end_lon AS lon2, 
+		road.node_end_lat AS lat2,
+		pnpoly(road.node_start_lon, road.node_start_lat, boundary.polygon) AS inPoly 
        
-      FROM
-      	boundary, road
+    	FROM
+      		boundary, road
     	WHERE
-  			road.node_start_lon < boundary.maxlon	AND 
+  		road.node_start_lon < boundary.maxlon	AND 
     		road.node_start_lon > boundary.minlon	AND 
     		road.node_start_lat < boundary.maxlat	AND 
     		road.node_start_lat > boundary.minlat	
