@@ -98,20 +98,20 @@ SELECT
 	cityID, SUM(light) as light_sum
 FROM
 (
-    SELECT 
-  		boundary.cityID, 
-  		light.light,
-      pnpoly(light.lon, light.lat, boundary.polygon) AS inPoly 
+    SELECT  /*+ mapjoin(boundary) */
+  	boundary.cityID, 
+  	light.light,
+        pnpoly(light.lon, light.lat, boundary.polygon) AS inPoly 
     FROM
-      boundary, light
-    WHERE /*bounding box filter*/
-  		light.lon < boundary.maxlon	AND 
+        boundary, light
+    WHERE 
+  	light.lon < boundary.maxlon	AND 
     	light.lon > boundary.minlon	AND 
     	light.lat < boundary.maxlat	AND 
-    	light.lat > boundary.minlat	AND 
-      inPoly = TRUE
+    	light.lat > boundary.minlat	
 )
-GROUP BY cityID;
+WHERE inPoly = true
+GROUP BY cityID
 ```
 
 
