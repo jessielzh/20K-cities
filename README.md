@@ -230,16 +230,15 @@ SELECT
 	cityID, SUM(distance) AS distance_sum
 FROM
 (
-	SELECT 
+  SELECT 
   	b.cityID,
-    geo_distance(r.start_col/240-180, r.start_row/240-90, r.end_col/240-180, r.end_row/240-90) AS distance   
+        geo_distance(r.start_col/240-180, r.start_row/240-90, r.end_col/240-180, r.end_row/240-90) AS distance   
   FROM 
   	boundaryRaster AS b, 
   	roadRaster AS r
   WHERE 
   	b.row = r.start_row AND 
-    b.col = r.start_col
-  	/* if the start node of the edge is in the polygon, we treat this edge in the polygon */
+        b.col = r.start_col
 )
 GROUP BY cityID
 ```
@@ -251,9 +250,9 @@ SELECT
 	cityID, SUM(light) AS light_sum
 FROM
 (
-	SELECT 
+  SELECT 
   	boundaryRaster.cityID,
-		lightRaster.light
+	lightRaster.light
   FROM 
   	boundaryRaster, 
   	lightRaster
@@ -271,9 +270,9 @@ SELECT
 	cityID, SUM(area) AS area_sum
 FROM
 (
-	SELECT 
+  SELECT 
   	boundaryRaster.cityID,
-		builtupRaster.area
+	builtupRaster.area
   FROM 
   	boundaryRaster, 
   	builtupRaster
@@ -291,9 +290,9 @@ SELECT
 	cityID, SUM(population) AS population_sum
 FROM
 (
-	SELECT 
+  SELECT 
   	boundaryRaster.cityID,
-		populationRaster.population
+	populationRaster.population
   FROM 
   	boundaryRaster, 
   	populationRaster
