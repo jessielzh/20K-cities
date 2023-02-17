@@ -123,20 +123,20 @@ SELECT
 	cityID, SUM(area) as area_sum
 FROM
 (
-    SELECT 
-  		boundary.cityID, 
-  		builtup.area,
-      pnpoly(builtup.lon, builtup.lat, boundary.polygon) AS inPoly 
+    SELECT /*+ mapjoin(boundary) */
+  	boundary.cityID, 
+  	builtup.area,
+        pnpoly(builtup.lon, builtup.lat, boundary.polygon) AS inPoly 
     FROM
       boundary, builtup
-    WHERE /*bounding box filter*/
-  		builtup.lon < boundary.maxlon	AND 
+    WHERE 
+  	builtup.lon < boundary.maxlon	AND 
     	builtup.lon > boundary.minlon	AND 
     	builtup.lat < boundary.maxlat	AND 
-    	builtup.lat > boundary.minlat	AND 
-      inPoly = TRUE
+    	builtup.lat > boundary.minlat	
 )
-GROUP BY cityID;
+WHERE inPoly = true
+GROUP BY cityID
 ```
 
 
@@ -148,20 +148,21 @@ SELECT
 	cityID, SUM(population) as population_sum
 FROM
 (
-    SELECT 
-  		boundary.cityID, 
-  		population.population,
-      pnpoly(population.lon, population.lat, boundary.polygon) AS inPoly 
+    SELECT /*+ mapjoin(boundary) */
+  	boundary.cityID, 
+  	population.population,
+        pnpoly(population.lon, population.lat, boundary.polygon) AS inPoly 
     FROM
       boundary, population
-    WHERE /*bounding box filter*/
-  		population.lon < boundary.maxlon	AND 
+    WHERE
+  	population.lon < boundary.maxlon	AND 
     	population.lon > boundary.minlon	AND 
     	population.lat < boundary.maxlat	AND 
-    	population.lat > boundary.minlat	AND 
-      inPoly = TRUE
+    	population.lat > boundary.minlat	
+      
 )
-GROUP BY cityID;
+WHERE inPoly = true
+GROUP BY cityID
 ```
 
 
