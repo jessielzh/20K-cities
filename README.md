@@ -60,32 +60,33 @@
 
 ```sql
 SELECT 
-	cityID, SUM(distance) as distance_sum /* sum all the edge distance */
+	cityID, SUM(distance) as distance_sum 
 FROM
 (
-    SELECT cityID, 
+    SELECT
+  		cityID, 
   		geo_distance(lon1, lat1, lon2, lat2) AS distance
     FROM 
-  	( /* retrieve the edges with starting node inside city boundary */
-  		SELECT
-      	boundary.cityID
+  	( 
+  		SELECT  /*+ mapjoin(boundary) */
+      	boundary.cityID,
       	road.node_start_lon AS lon1, 
       	road.node_start_lat AS lat1, 
       	road.node_end_lon AS lon2, 
       	road.node_end_lat AS lat2,
         pnpoly(road.node_start_lon, road.node_start_lat, boundary.polygon) AS inPoly 
-        /* if the start node of the edge is in the polygon, we treat this edge in the polygon */
+       
       FROM
       	boundary, road
-    	WHERE /*bounding box filter*/
+    	WHERE
   			road.node_start_lon < boundary.maxlon	AND 
     		road.node_start_lon > boundary.minlon	AND 
     		road.node_start_lat < boundary.maxlat	AND 
-    		road.node_start_lat > boundary.minlat	AND
-      	inPoly = TRUE
+    		road.node_start_lat > boundary.minlat	
      )
+     WHERE inPoly = true
 )
-GROUP BY cityID;
+GROUP BY cityID
 ```
 
 
