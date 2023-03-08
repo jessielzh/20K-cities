@@ -82,7 +82,8 @@ FROM
   		road.node_start_lon < boundary.maxlon	AND 
     		road.node_start_lon > boundary.minlon	AND 
     		road.node_start_lat < boundary.maxlat	AND 
-    		road.node_start_lat > boundary.minlat	
+    		road.node_start_lat > boundary.minlat	AND
+  		boundary.cityID = '-1002044'
      )
      WHERE inPoly = true
 )
@@ -108,7 +109,8 @@ FROM
   	light.lon < boundary.maxlon	AND 
     	light.lon > boundary.minlon	AND 
     	light.lat < boundary.maxlat	AND 
-    	light.lat > boundary.minlat	
+    	light.lat > boundary.minlat	AND
+  	boundary.cityID = '-1002044'
 )
 WHERE inPoly = true
 GROUP BY cityID
@@ -133,7 +135,8 @@ FROM
   	builtup.lon < boundary.maxlon	AND 
     	builtup.lon > boundary.minlon	AND 
     	builtup.lat < boundary.maxlat	AND 
-    	builtup.lat > boundary.minlat	
+    	builtup.lat > boundary.minlat	AND
+  	boundary.cityID = '-1002044'
 )
 WHERE inPoly = true
 GROUP BY cityID
@@ -158,7 +161,8 @@ FROM
   	population.lon < boundary.maxlon	AND 
     	population.lon > boundary.minlon	AND 
     	population.lat < boundary.maxlat	AND 
-    	population.lat > boundary.minlat	
+    	population.lat > boundary.minlat	AND
+  	boundary.cityID = '-1002044'
       
 )
 WHERE inPoly = true
@@ -238,7 +242,8 @@ FROM
   	roadRaster AS r
   WHERE 
   	b.row = r.start_row AND 
-        b.col = r.start_col
+        b.col = r.start_col AND
+  	b.cityID = '-1002044'
 )
 GROUP BY cityID
 ```
@@ -258,7 +263,8 @@ FROM
   	lightRaster
   WHERE 
   	boundaryRaster.row = lightRaster.row AND 
-  	boundaryRaster.col = lightRaster.col  
+  	boundaryRaster.col = lightRaster.col AND
+  	b.cityID = '-1002044'
 )
 group by cityID
 ```
@@ -278,7 +284,8 @@ FROM
   	builtupRaster
   WHERE 
   	boundaryRaster.row = builtupRaster.row AND 
-  	boundaryRaster.col = builtupRaster.col  
+  	boundaryRaster.col = builtupRaster.col AND
+  	b.cityID = '-1002044'
 )
 group by cityID
 ```
@@ -298,7 +305,8 @@ FROM
   	populationRaster
   WHERE 
   	boundaryRaster.row = populationRaster.row AND 
-  	boundaryRaster.col = populationRaster.col  
+  	boundaryRaster.col = populationRaster.col AND
+  	b.cityID = '-1002044'  
 )
 group by cityID
 ```
