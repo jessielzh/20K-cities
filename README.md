@@ -264,7 +264,7 @@ FROM
   WHERE 
   	boundaryRaster.row = lightRaster.row AND 
   	boundaryRaster.col = lightRaster.col AND
-  	b.cityID = '-1002044'
+  	boundaryRaster.cityID = '-1002044'
 )
 group by cityID
 ```
@@ -285,7 +285,7 @@ FROM
   WHERE 
   	boundaryRaster.row = builtupRaster.row AND 
   	boundaryRaster.col = builtupRaster.col AND
-  	b.cityID = '-1002044'
+  	boundaryRaster.cityID = '-1002044'
 )
 group by cityID
 ```
@@ -306,7 +306,7 @@ FROM
   WHERE 
   	boundaryRaster.row = populationRaster.row AND 
   	boundaryRaster.col = populationRaster.col AND
-  	b.cityID = '-1002044'  
+  	boundaryRaster.cityID = '-1002044'  
 )
 group by cityID
 ```
